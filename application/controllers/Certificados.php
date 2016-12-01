@@ -13,8 +13,10 @@ class Certificados extends CI_Controller {
     public function index() {
         
         
-        
-        $this->load->view('tema/pagina');
+        $this->load->view('tema/menu');
+        $this->load->view('tema/header');
+        $this->load->view('certificados/pesquisa');
+        $this->load->view('tema/footer');
       
     
     }
