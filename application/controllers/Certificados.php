@@ -29,15 +29,17 @@ class Certificados extends CI_Controller {
     }
     
     public function pesquisar() {
-        if((!$this->session->userdata('session_id')) || (!$this->session->userdata('logado'))){
-            redirect('mapos/login');
-        }
-        
+               
         $termo = $this->input->get('termo');
-        $data['results'] = $this->mapos_model->pesquisar($termo);
+        $data['results'] = $this->certificados_model->pesquisar($termo);
         $this->data['certificados'] = $data['results']['certificados'];
-        $this->data['view'] = 'certificados/pesquisa';
-        $this->load->view('tema/topo',  $this->data);
+        $this->data['view'] = 'certificados/resultado';
+        $this->load->view('tema/menu');
+        $this->load->view('tema/header');
+        $this->load->view('certificados/resultado',  $this->data);
+        $this->load->view('tema/footer');
+        
+    
       
     }
     
