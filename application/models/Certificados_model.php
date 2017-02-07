@@ -12,8 +12,9 @@ class Certificados_model extends CI_Model {
 
     function get($table, $fields, $where = '', $perpage = 0, $start = 0, $one = false, $array = 'array') {
 
-        $this->db->select($fields);
+        $this->db->select($fields.',aluno.nome_aluno');
         $this->db->from($table);
+        $this->db->join('aluno','aluno.id_aluno = certificado.clientes_id');
         $this->db->limit($perpage, $start);
         if ($where) {
             $this->db->where($where);
@@ -29,7 +30,7 @@ class Certificados_model extends CI_Model {
         $this->db->select('certificados.*, aluno.*, curso.*');
         $this->db->from('certificados');
         $this->db->join('aluno', 'aluno.id_aluno = certificados.id_aluno');
-        $this->db->join('usuarios', 'curso.id_curso = certificados.id_curso');
+        $this->db->join('curso', 'curso.id_curso = certificados.id_curso');
         $this->db->where('certificados.id_certificado', $id);
         $this->db->limit(1);
         return $this->db->get()->row();
@@ -38,7 +39,9 @@ class Certificados_model extends CI_Model {
     function pesquisar($termo) {
         $data = array();
         // buscando certificados por código
-        $this->db->like('codigo', $termo);
+        $this->db->join('aluno', 'aluno.id_aluno = certificados.id_aluno');
+        $this->db->join('curso', 'curso.id_curso = certificados.id_curso');
+        $this->db->where('codigo', $termo);
         $this->db->limit(1);
         $data['certificados'] = $this->db->get('certificados')->result();
         return $data;
